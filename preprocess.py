@@ -1,3 +1,5 @@
+# generate processed.csv from raw data
+
 import os
 import csv
 import datetime
@@ -32,7 +34,7 @@ def getTimestampToTraffic():
 
 if __name__ == '__main__':
   timestampToTraffic = getTimestampToTraffic()
-  output = open('./processd.csv', 'w')
+  output = open('./data.csv', 'w')
   writer = csv.writer(output)
   for timestamp in sorted(timestampToTraffic):
     print(timestamp, timestampToTraffic[timestamp])
