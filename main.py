@@ -55,7 +55,6 @@ class GRU_REG(nn.Module):
 model = GRU_REG(input_size=1, hidden_size=2, output_size=1, num_layers=2, seq=seq)
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(),lr=lr)
-hist = np.zeros(num_epochs)
 model.train()
 for epoch in range(num_epochs):
   epoch_loss = 0
@@ -70,6 +69,8 @@ for epoch in range(num_epochs):
   with torch.no_grad():
     epoch_loss += loss
   print(f'epoch {epoch + 1}, loss {epoch_loss:f}') 
+torch.save(model.state_dict(), 'model_state.pt')
+torch.save(optimizer.state_dict(), 'optimizer_state.pt')
 
 # test
 model.eval()
@@ -86,4 +87,7 @@ plt.plot(timestamps, labels, label='original')
 plt.plot(timestamps[n_train:], prediction, label='prediction')
 plt.legend()
 plt.xticks(rotation=30, fontsize=7)
-plt.show()
+plt.xlabel('time')
+plt.ylabel('traffic(GB)')
+plt.tight_layout()
+plt.savefig('plot.png')
