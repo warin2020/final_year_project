@@ -82,6 +82,19 @@ for i in range(len(test_features) // batch_size + 1):
   output = model(X)
   prediction += output.tolist()
 
+# output
+output = open('./prediction.csv', 'w')
+writer = csv.writer(output)
+writer.writerow(['timestamp', 'prediction', 'actual', 'difference'])
+mse = 0
+mse_n = 0
+for ts, [pd], lb in zip(timestamps[n_train:], prediction, labels.tolist()[n_train:]):
+  writer.writerow([ts, pd, lb, pd - lb])
+  mse += (pd - lb) ** 2
+  mse_n += 1
+mse /= mse_n
+print('prediction mse', mse)
+
 # plot
 plt.plot(timestamps, labels, label='original')
 plt.plot(timestamps[n_train:], prediction, label='prediction')
